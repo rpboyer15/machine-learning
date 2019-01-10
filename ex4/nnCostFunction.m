@@ -74,21 +74,22 @@ Jm = -Y.*log(a3)-(1-Y).*log(1-a3); % 5000 x 10
 
 J = (1/m)*sum(sum(Jm, 2), 1); % 1 x 1
 
-%a2 = a2(:, 2:end); % 5000 x 25
+% a2 = a2(:, 2:end); % 5000 x 25
 
 Theta2_grad = a3 - Y; % 5000 x 10
-Theta1_grad = 
-%Theta1_grad = (Theta2_grad*Theta2).*a2.*(1-a2); % 5000 x 26
+Theta1_grad = (Theta2_grad*Theta2).*a2.*(1-a2); % 5000 x 26
 %(5000x10)*(10x26).*5000x25.*5000x25
- size(Theta1_grad);
 
-
+Theta1_grad = Theta1_grad'; % 26x5000
+Theta2_grad = Theta2_grad'; % 10x5000
+size(Theta1_grad)
+size(Theta2_grad)
 % -------------------------------------------------------------
 
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
+size(grad)
 
 end
