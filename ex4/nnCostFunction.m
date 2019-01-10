@@ -62,22 +62,24 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-X = [ones(m, 1) X];
-a2 = sigmoid(X*Theta1');
-a2 = [ones(m, 1) a2];
-a3 = sigmoid(a2*Theta2');
-Y = zeros(m, num_labels);
+X = [ones(m, 1) X]; 			% 5000 x 401
+a2 = sigmoid(X*Theta1'); 	% 5000 x 25
+a2 = [ones(m, 1) a2]; 		% 5000 x 26
+a3 = sigmoid(a2*Theta2'); % 5000 x 10
+Y = zeros(m, num_labels); % 5000 x 10
 for i = 1:m,
 	Y(i, y(i, 1)) = 1;
 end;
-Jm = -Y.*log(a3)-(1-Y).*log(1-a3);
+Jm = -Y.*log(a3)-(1-Y).*log(1-a3); % 5000 x 10
 
-J = (1/m)*sum(sum(Jm, 2), 1);
+J = (1/m)*sum(sum(Jm, 2), 1); % 1 x 1
 
-Theta1_grad = a3 - Y;
-size(Theta1)
-Theta2_grad = a2.*(1-a2);
-size(Theta2)
+%a2 = a2(:, 2:end); % 5000 x 25
+
+Theta2_grad = a3 - Y; % 5000 x 10
+Theta1_grad = (Theta2_grad*Theta2).*a2.*(1-a2);
+%(5000x10)*(10x26).*5000x25.*5000x25
+size(Theta1_grad);
 
 
 % -------------------------------------------------------------
