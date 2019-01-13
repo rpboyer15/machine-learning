@@ -18,10 +18,8 @@ function [J grad] = nnCostFunction(nn_params, ...
 % for our 2 layer neural network
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
                  hidden_layer_size, (input_layer_size + 1));
-
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
-
 % Setup some useful variables
 m = size(X, 1);
          
@@ -62,13 +60,13 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-X = [ones(m, 1) X]; 			
+X = [ones(m, 1) X];
 % 5000 x 401
-z2 = X*Theta1'; 
+z2 = X*Theta1';
 % 5000x25
-a2 = sigmoid(z2); 	
+a2 = sigmoid(z2);
 % 5000 x 25
-a2 = [ones(m, 1) a2]; 		
+a2 = [ones(m, 1) a2];
 % 5000 x 26
 z3 = a2*Theta2';
 a3 = sigmoid(z3); 
@@ -89,11 +87,16 @@ d3 = a3 - Y;
 % 5000 x 10
 d2 = d3*Theta2(:, 2:end).*sigmoidGradient(z2); 
 % 5000x25
-reg_grad = lambda/m
-Theta2_grad = (1/m)*d3'*a2+reg_grad*Theta2; 
+
+Theta2_grad = (1/m)*d3'*a2; 
 % 10x26 
-Theta1_grad = (1/m)*d2'*X+reg_grad*Theta1; 
+Theta2_grad = [Theta2_grad(:, 1) Theta2_grad(:, 2:end)+(lambda/m)*Theta2(:, 2:end)]; 
+
+
+Theta1_grad = (1/m)*d2'*X;
 % 25x401
+Theta1_grad = [Theta1_grad(:, 1) Theta1_grad(:, 2:end)+(lambda/m)*Theta1(:, 2:end)];
+
 
 % -------------------------------------------------------------
 

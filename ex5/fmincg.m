@@ -46,6 +46,7 @@ function [X, fX, i] = fmincg(f, X, options, P1, P2, P3, P4, P5)
 % 1) Function name and argument specifications
 % 2) Output display
 %
+
 % Read options
 if exist('options', 'var') && ~isempty(options) && isfield(options, 'MaxIter')
     length = options.MaxIter;
@@ -66,6 +67,7 @@ for i = 1:(nargin - 3)
   argstr = [argstr, ',P', int2str(i)];
 end
 argstr = [argstr, ')'];
+
 if max(size(length)) == 2, red=length(2); length=length(1); else red=1; end
 S=['Iteration '];
 
@@ -170,5 +172,4 @@ while i < abs(length)                                      % while not finished
     fflush(stdout);
   end
 end
-
 fprintf('\n');
